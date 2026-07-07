@@ -1,0 +1,760 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Happy Birthday Meoww ❤️</title>
+    <style>
+      /* --- RESET & GLOBAL STYLES --- */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        background: linear-gradient(
+          -100deg,
+          #ffdee9,
+          #b5fffc,
+          #e0c3fc,
+          #f8f1e5
+        );
+        background-size: 400% 400%;
+        animation: gradientBG 15s ease infinite;
+        overflow-x: hidden;
+        color: #4a4a4a;
+      }
+
+      @keyframes gradientBG {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      /* --- LANDING SCREEN --- */
+      #landing-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        transition:
+          opacity 1s ease-out,
+          visibility 1s;
+        background: inherit;
+      }
+
+      #landing-screen.hidden {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+      }
+
+      /* Typing Effect */
+      .typing-container {
+        font-size: 5.5rem;
+        font-weight: bold;
+        font-family: "Brush Script MT", cursive;
+        color: #e100ff;
+        background-clip: text;
+        -webkit-background-clip: text;
+        text-shadow: 0 0 20px rgba(126, 12, 12, 0.624);
+        margin-bottom: 40px;
+        text-align: center;
+        min-height: 4rem;
+        padding: 0 20px;
+      }
+
+      /* Gift Box Styles */
+      .gift-container {
+        cursor: pointer;
+        position: relative;
+        transform: scale(1);
+        transition: transform 0.3s ease;
+      }
+      .gift-container:hover {
+        transform: scale(1.1);
+      }
+      .gift-box {
+        font-size: 200px;
+        animation: bounce 2s infinite;
+        position: center;
+      }
+
+      @keyframes bounce {
+        0%,
+        20%,
+        50%,
+        80%,
+        100% {
+          transform: translateY(0);
+        }
+        40% {
+          transform: translateY(-20px);
+        }
+        60% {
+          transform: translateY(-10px);
+        }
+      }
+
+      .click-hint {
+        margin-top: 15px;
+        font-size: 1.1rem;
+        color: #7b68ee;
+        font-weight: 600;
+        animation: pulse 1.5s infinite;
+      }
+
+      @keyframes pulse {
+        0% {
+          opacity: 0.5;
+        }
+        50% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0.5;
+        }
+      }
+
+      /* --- FLOATING DECORATIONS --- */
+      .floating-element {
+        position: absolute;
+        bottom: -50px;
+        font-size: 24px;
+        opacity: 0.7;
+        animation: floatUp 8s linear infinite;
+        pointer-events: none;
+        z-index: 1;
+      }
+
+      @keyframes floatUp {
+        0% {
+          transform: translateY(0) rotate(0deg);
+          opacity: 0;
+        }
+        10% {
+          opacity: 0.7;
+        }
+        90% {
+          opacity: 0.7;
+        }
+        100% {
+          transform: translateY(-105vh) rotate(360deg);
+          opacity: 0;
+        }
+      }
+
+      /* --- MAIN CONTENT & SURPRISE --- */
+      #main-content {
+        display: none;
+        opacity: 0;
+        transition: opacity 1.5s ease-in;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      #main-content.visible {
+        display: block;
+        opacity: 1;
+      }
+
+      /* --- AUDIO CONTROLS --- */
+      .audio-controls {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(5px);
+        padding: 10px 15px;
+        border-radius: 30px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        z-index: 2000;
+        display: flex;
+        gap: 10px;
+      }
+
+      .audio-btn {
+        background: #ff7675;
+        border: none;
+        color: white;
+        padding: 8px 15px;
+        border-radius: 20px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: background 0.2s;
+      }
+      .audio-btn:hover {
+        background: #e84393;
+      }
+
+      /* --- COMMON CARD GLASSMORPHISM --- */
+      .glass-card {
+        background: rgba(255, 255, 255, 0.6);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        box-shadow: 0 8px 32px rgba(31, 38, 135, 0.08);
+        padding: 30px;
+        margin: 40px auto;
+        text-align: center;
+      }
+
+      h2 {
+        font-size: 2.2rem;
+        color: #6c5ce7;
+        margin-bottom: 25px;
+        position: relative;
+      }
+
+      /* --- MEMORY GALLERY (SLIDESHOW) --- */
+      .slideshow-container {
+        position: relative;
+        max-width: 700px;
+        margin: auto;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+      .slide {
+        display: none;
+        width: 100%;
+        height: 450px;
+        object-fit: cover;
+      }
+      .prev,
+      .next {
+        cursor: pointer;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        padding: 16px;
+        color: white;
+        font-weight: bold;
+        font-size: 20px;
+        background: rgba(0, 0, 0, 0.4);
+        border: none;
+        border-radius: 0 3px 3px 0;
+        transition: 0.3s;
+      }
+      .next {
+        right: 0;
+        border-radius: 3px 0 0 3px;
+      }
+      .prev:hover,
+      .next:hover {
+        background: rgba(0, 0, 0, 0.8);
+      }
+
+      /* --- OUR BEAUTIFUL MEMORIES GRID --- */
+      .photo-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 15px;
+        margin-top: 20px;
+      }
+      .grid-img {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+        border-radius: 10px;
+        transition: transform 0.3s ease;
+        cursor: pointer;
+      }
+      .grid-img:hover {
+        transform: scale(1.05);
+      }
+
+      /* --- VIDEO GALLERY --- */
+      .video-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+      }
+      .video-card video {
+        width: 100%;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+      }
+
+      /* --- REASONS WHY YOU ARE SPECIAL --- */
+      .reasons-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 20px;
+      }
+      .reason-card {
+        background: rgba(255, 255, 255, 0.8);
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
+        transition: transform 0.3s;
+      }
+      .reason-card:hover {
+        transform: translateY(-5px);
+      }
+      .reason-num {
+        font-size: 1.5rem;
+        color: #ff7675;
+        font-weight: bold;
+        margin-bottom: 8px;
+      }
+
+      /* --- SECRET LETTER POPUP --- */
+      .secret-btn {
+        background: linear-gradient(135deg, #fd79a8, #e84393);
+        color: white;
+        border: none;
+        padding: 15px 35px;
+        font-size: 1.2rem;
+        border-radius: 50px;
+        cursor: pointer;
+        font-weight: bold;
+        box-shadow: 0 5px 15px rgba(232, 67, 147, 0.4);
+        transition: transform 0.2s;
+      }
+      .secret-btn:hover {
+        transform: scale(1.05);
+      }
+
+      .popup-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 3000;
+        padding: 20px;
+      }
+      .popup-content {
+        background: #fffdf9;
+        max-width: 500px;
+        padding: 40px;
+        border-radius: 20px;
+        position: relative;
+        text-align: left;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        line-height: 1.6;
+      }
+      .close-popup {
+        position: absolute;
+        top: 15px;
+        right: 20px;
+        font-size: 24px;
+        cursor: pointer;
+        border: none;
+        background: none;
+      }
+
+      /* --- CONFETTI CANVAS --- */
+      #confetti-canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 1500;
+      }
+
+      /* --- RESPONSIVE DESIGN --- */
+      @media (max-width: 768px) {
+        .typing-container {
+          font-size: 1.8rem;
+        }
+        .slide {
+          height: 300px;
+        }
+        h2 {
+          font-size: 1.8rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="confetti-canvas"></canvas>
+
+    <audio id="bg-audio" src="birthday-song.mp3" loop></audio>
+
+    <div class="audio-controls" id="audio-ui" style="display: none">
+      <button class="audio-btn" onclick="controlAudio('play')">▶ Play</button>
+      <button class="audio-btn" onclick="controlAudio('pause')">⏸ Pause</button>
+      <button class="audio-btn" onclick="controlAudio('mute')">🔇 Mute</button>
+    </div>
+
+    <div id="landing-screen">
+      <div class="typing-container" id="typing-text"></div>
+      <div class="gift-container" onclick="openGift()">
+        <div class="gift-box">🎁</div>
+        <div class="click-hint">
+          Click the gift box to open your surprise! ✨
+        </div>
+      </div>
+    </div>
+
+    <div id="main-content">
+      <div class="glass-card">
+        <h2 style="color: #6c5ce7; font-weight: 500; margin-bottom: 10px; font-size: rem; font-family:'Times New Roman', Times, serif; font-weight: bold">A Special Message For You ❤️</h2>
+        <p style="font-size: 1.2rem; line-height: 1.8; font-style: italic;">
+          "Happy Birthday to the most amazing friend in my life. Thank you for
+          always supporting me, making me smile, and creating countless
+          beautiful memories with me. I am truly grateful to have you in my
+          life. May this year bring you happiness, success, love, and endless
+          joy. Stay happy and keep smiling always. Wishing you the most
+          wonderful birthday ever. ❤️"
+        </p>
+      </div>
+
+      <div class="glass-card">
+        <h2 style="color: #6c5ce7; font-weight: 500; margin-bottom: 10px; font-size: 2.5rem; font-family:'Times New Roman', Times, serif; font-weight: bold">Our Beautiful Memories 📸</h2>
+        <div class="slideshow-container">
+          <script>
+            for (let i = 1; i <= 30; i++) {
+              document.write(
+                `<img class="slide" src="photo${i}.jpg" alt="Memory ${i}" onerror="this.src='https://picsum.photos/700/450?random=${i}'">`,
+              );
+            }
+          </script>
+          <button class="prev" onclick="changeSlide(-1)">&#10094;</button>
+          <button class="next" onclick="changeSlide(1)">&#10095;</button>
+        </div>
+
+        <div class="photo-grid">
+          <script>
+            for (let i = 1; i <= 30; i++) {
+              document.write(
+                `<img class="grid-img" src="photo${i}.jpg" alt="Thumbnail ${i}" onclick="jumpToSlide(${i - 1})" onerror="this.src='https://picsum.photos/200/200?random=${i}'">`,
+              );
+            }
+          </script>
+        </div>
+      </div>
+
+      <div class="glass-card">
+        <h2  style="font-size: 2.5rem; font-family: 'Times New Roman', Times, serif;">Video Moments 🎥</h2>
+        <div class="video-grid">
+          <div class="video-card">
+            <video
+              src="video1.mp4"
+              controls
+              preload="none"
+              poster="Photo2.jpg"
+            ></video>
+          </div>
+          <div class="video-card">
+            <video
+              src="video2.mp4"
+              controls
+              preload="none"
+              poster="Photo3.jpg"
+            ></video>
+          </div>
+          <div class="video-card">
+            <video
+              src="video3.mp4"
+              controls
+              preload="none"
+              poster="Photo28.jpg"
+            ></video>
+          </div>
+          <div class="video-card">
+            <video
+              src="video4.mp4"
+              controls
+              preload="none"
+              poster="Photo26.jpg"
+            ></video>
+          </div>
+          <div class="video-card">
+            <video
+              src="video5.mp4"
+              controls
+              preload="none"
+              poster="Photo30.jpg"
+            ></video>
+          </div>
+          <div class="video-card">
+            <video
+              src="video6.mp4"
+              controls
+              preload="none"
+              poster="photo23.jpg"
+            ></video>
+          </div>
+        </div>
+      </div>
+
+      <div class="glass-card">
+        <h2 style="color: #6c5ce7; font-weight: 500; margin-bottom: 10px; font-size: 2.5rem; font-family:'Times New Roman', Times, serif; font-weight: bold">20 Reasons Why You Are Special ✨</h2>
+        <div class="reasons-grid" id="reasons-box"></div>
+      </div>
+
+      <div style="text-align: center; margin: 50px 0">
+        <button class="secret-btn" onclick="togglePopup(true)">
+          Click to Read Secret Message 💌
+        </button>
+      </div>
+
+      <div
+        class="glass-card"
+        style="background: rgba(255, 255, 255, 0.4); margin-top: 80px"
+      >
+        <h1 style="color: #e84393; font-size: 2.5rem; margin-bottom: 15px; font-family:'Times New Roman', Times, serif;">
+          Happy Birthday🎂 My Meoww😻❤️
+        </h1>
+        <h3 style="color: #6c5ce7; font-weight: 500; margin-bottom: 10px; font-size: 1.5rem; font-family:'Times New Roman', Times, serif; font-weight: bold">
+          Thank You For Always Being There For Me
+        </h3>
+        <p style="font-size: 1.2rem; color: #ff7675; font-weight: bold; font-size: 1.5rem; font-family:'Times New Roman', Times, serif">
+          May All Your Dreams Come True
+        </p>
+      </div>
+    </div>
+
+    <div class="popup-overlay" id="secret-popup" onclick="togglePopup(false)">
+      <div class="popup-content" onclick="event.stopPropagation()">
+        <button class="close-popup" onclick="togglePopup(false)">
+          &times;
+        </button>
+        <h3 style="color: #e84393; margin-bottom: 15px; font-size: 1.4rem">
+          My Secret Note to You 📝
+        </h3>
+        <p>To my absolute favorite human,</p>
+        <br />
+        <p>
+          If everyone had a best friend like you, the world would be an
+          infinitely happier place. Thank you for the shared late-night laughs,
+          the silent understanding, and for accepting me precisely as I am.
+        </p>
+        <br />
+        <p>
+          You aren't just my best friend; you are family. Today, tomorrow, and
+          forever, I've always got your back!
+        </p>
+        <br />
+        <p>With all my love,<br />Your Best Friend Forever ♾️</p>
+      </div>
+    </div>
+
+    <script>
+      // --- TYPING ANIMATION ON LANDING ---
+      const typingText = "Happy Birthday Smurti ❤️";
+      let index = 0;
+      function type() {
+        if (index < typingText.length) {
+          document.getElementById("typing-text").innerHTML +=
+            typingText.charAt(index);
+          index++;
+          setTimeout(type, 100);
+        }
+      }
+      window.onload = () => {
+        type();
+        createFloatingDecorations();
+      };
+
+      // --- FLOATING BACKGROUND HEART/STAR GENERATOR ---
+      function createFloatingDecorations() {
+        const symbols = ["😻","💖", "💝", "💘", "💞", "💓", "💗", "💟", "✨", "🌟",];
+        setInterval(() => {
+          const element = document.createElement("div");
+          element.classList.add("floating-element");
+          element.innerHTML =
+            symbols[Math.floor(Math.random() * symbols.length)];
+          element.style.left = Math.random() * 100 + "vw";
+          element.style.animationDuration = Math.random() * 4 + 6 + "s"; // 6s to 10s
+          element.style.fontSize = Math.random() * 20 + 15 + "px";
+          document.body.appendChild(element);
+
+          setTimeout(() => {
+            element.remove();
+          }, 10000);
+        }, 600);
+      }
+
+      // --- OPEN SURPRISE GIFT ACTION ---
+      function openGift() {
+        // Play Audio
+        const audio = document.getElementById("bg-audio");
+        audio
+          .play()
+          .catch((e) =>
+            console.log("Audio play blocked until interaction. Trying again."),
+          );
+
+        // Show UI Elements
+        document.getElementById("audio-ui").style.display = "flex";
+        document.getElementById("landing-screen").classList.add("hidden");
+
+        const mainContent = document.getElementById("main-content");
+        mainContent.classList.add("visible");
+
+        // Trigger visual celebratory effects
+        initConfetti();
+        triggerExplosions();
+        showSlides(slideIndex);
+        generateReasons();
+      }
+
+      // --- AUDIO CONTROLS FUNCTION ---
+      function controlAudio(action) {
+        const audio = document.getElementById("bg-audio");
+        if (action === "play") {
+          audio.muted = false;
+          audio.play();
+        } else if (action === "pause") {
+          audio.pause();
+        } else if (action === "mute") {
+          audio.muted = !audio.muted;
+        }
+      }
+
+      // --- SLIDESHOW LOGIC ---
+      let slideIndex = 0;
+      function showSlides(n) {
+        let slides = document.getElementsByClassName("slide");
+        if (n >= slides.length) {
+          slideIndex = 0;
+        }
+        if (n < 0) {
+          slideIndex = slides.length - 1;
+        }
+        for (let i = 0; i < slides.length; i++) {
+          slides[i].style.display = "none";
+        }
+        slides[slideIndex].style.display = "block";
+      }
+      function changeSlide(n) {
+        showSlides((slideIndex += n));
+      }
+      function jumpToSlide(n) {
+        showSlides((slideIndex = n));
+      }
+
+      // --- GENERATE THE 20 REASONS ---
+      const reasons = [
+        "Your smile can fix even my worst mood.",
+        "You're the most childish person I know... and that's exactly why life is fun with you.",
+        "You somehow understand me even when I don't say a word.",
+        "Your terrible jokes are still funnier than anyone else's.",
+        "You always know when I need a hug... or just someone to annoy me.",
+        "You inspire me to be stronger, kinder, and a little crazier.",
+        "You fight with me over the smallest things... but never stop caring.",
+        "Five years of friendship, and every memory still feels brand new.",
+        "You always give me advice... even when I didn't ask for it. 😂",
+        "You never let me feel alone, no matter what.",
+        "You celebrate my tiny achievements like i won the whole world",
+        "Even the most boring day becomes an adventure with you.",
+        "Beauty with brains.... that's my Smurti❤️",
+        "I trust you with my secrets.... even after all our silly fights",
+        "You hearts is as beautiful as your smile.",
+        "No matter how angry we get, we always find our way back to each other.",
+        "Thanks for taking my best pictures... and also those embaarrassing ones i'll never forgive you for  😅",
+        "We've laughed, argued, cried, and grown together.i wouldn't change a thing.",
+        "No matter where life takes us you'll alwaays be one of my favorite people.",
+        "Thank you for these beautiful 5 year of friendship. we may fight, tease, and annoy, each other every day, but  i wouldn't trade you fot anyone. stay childish, keep smiling, and never change. Love you always <b>SMURTI❤️</b> ",
+      ];
+      function generateReasons() {
+        const container = document.getElementById("reasons-box");
+        if (container.children.length > 0) return; // Prevent duplication
+        reasons.forEach((reason, i) => {
+          const card = document.createElement("div");
+          card.className = "reason-card";
+          card.innerHTML = `<div class="reason-num">#${i + 1}</div><p>${reason}</p>`;
+          container.appendChild(card);
+        });
+      }
+
+      // --- POPUP WINDOW TOGGLE ---
+      function togglePopup(show) {
+        document.getElementById("secret-popup").style.display = show
+          ? "flex"
+          : "none";
+      }
+
+      // --- LIGHTWEIGHT CONFETTI ENGINE ---
+      const canvas = document.getElementById("confetti-canvas");
+      const ctx = canvas.getContext("2d");
+      let pieces = [];
+      function initConfetti() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        for (let i = 0; i < 150; i++) {
+          pieces.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height - canvas.height,
+            r: Math.random() * 6 + 4,
+            d: Math.random() * canvas.height,
+            color: `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 0.8)`,
+            tilt: Math.random() * 10 - 5,
+            tiltAngleIncremental: Math.random() * 0.07 + 0.02,
+            tiltAngle: 0,
+          });
+        }
+        updateConfetti();
+      }
+      function updateConfetti() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        pieces.forEach((p, idx) => {
+          p.tiltAngle += p.tiltAngleIncremental;
+          p.y += (Math.cos(p.d) + 3 + p.r / 2) / 2;
+          p.x += Math.sin(p.tiltAngle);
+          p.tilt = Math.sin(p.tiltAngle - idx / 3) * 15;
+
+          ctx.beginPath();
+          ctx.lineWidth = p.r;
+          ctx.strokeStyle = p.color;
+          ctx.moveTo(p.x + p.tilt + p.r / 2, p.y);
+          ctx.lineTo(p.x + p.tilt, p.y + p.tilt + p.r / 2);
+          ctx.stroke();
+
+          if (p.y > canvas.height) {
+            pieces[idx] = p;
+            p.x = Math.random() * canvas.width;
+            p.y = -20;
+          }
+        });
+        requestAnimationFrame(updateConfetti);
+      }
+      function triggerExplosions() {
+        // Periodic bursts of confetti to simulate excitement
+        setInterval(() => {
+          for (let i = 0; i < 30; i++) {
+            pieces.push({
+              x: Math.random() * canvas.width,
+              y: 0,
+              r: Math.random() * 6 + 4,
+              d: Math.random() * canvas.height,
+              color: `rgb(${Math.floor(Math.random() * 255)},200,200)`,
+              tilt: Math.random() * 10 - 5,
+              tiltAngleIncremental: Math.random() * 0.05,
+              tiltAngle: 0,
+            });
+          }
+        }, 4000);
+      }
+      window.addEventListener("resize", () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      });
+    </script>
+  </body>
+</html>
